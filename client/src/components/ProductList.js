@@ -1,8 +1,17 @@
-import React from "react";
-import products from "../products";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function ProductList() {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    async function getProducts() {
+      const res = await fetch("http://localhost:8002/api/products");
+      const data = await res.json();
+      setProducts(data);
+    }
+    getProducts();
+  }, []);
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
