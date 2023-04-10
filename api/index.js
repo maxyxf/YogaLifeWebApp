@@ -11,19 +11,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
+const { PrismaClient } = pkg;
+const prisma = new PrismaClient();
+
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
-app.get("/api/products", (req, res) => {
+// app.get("/api/products", (req, res) => {
+//   res.json(products);
+// });
+
+app.get("/api/products", async (req, res) => {
+  const products = await prisma.product.findMany();
   res.json(products);
+  console.log(products);
 });
 
 app.get("/api/product/:id", (req, res) => {
   const product = products.find(
     (product) => product.id === parseInt(req.params.id)
   );
-  console.log(product);
+  //console.log(product);
   res.json(product);
 });
 
