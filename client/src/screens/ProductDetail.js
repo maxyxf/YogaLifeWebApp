@@ -1,12 +1,18 @@
-import React from "react";
-import products from "../products";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  console.log("products:", products);
-  const product = products.find((p) => p.id === parseInt(id));
-  console.log(product);
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    async function getProduct() {
+      const res = await fetch(`http://localhost:8002/api/product/${id}`);
+      const data = await res.json();
+      setProduct(data);
+    }
+    getProduct();
+  }, []);
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
