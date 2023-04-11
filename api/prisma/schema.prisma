@@ -10,9 +10,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  name  String
+  carts Cart[]
+}
+
 model Product {
   id       Int     @id @default(autoincrement())
   name     String
   price    Float
   imageSrc String?
+  cart     Cart[]
+}
+
+model Cart {
+  id       Int       @id @default(autoincrement())
+  // A cart belongs to a single user
+  user     User      @relation(fields: [userId], references: [id])
+  userId   Int
+  // A cart can have many products
+  products Product[]
 }
