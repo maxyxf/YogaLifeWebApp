@@ -6,6 +6,8 @@ import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
 import ProductDetail from "./screens/ProductDetail";
+import VerifyUser from "./components/VerifyUser";
+import AuthDebugger from "./components/AuthDebugger";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
@@ -51,8 +53,10 @@ root.render(
           <Header />
           <Routes>
             <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/verify-user" element={<VerifyUser />} />
             <Route path="/products" element={<ProductScreen />} />
             <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="debugger" element={<AuthDebugger />} />
           </Routes>
           <Footer />
         </BrowserRouter>
