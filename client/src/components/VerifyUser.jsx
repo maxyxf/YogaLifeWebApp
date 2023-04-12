@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import { useNavigate } from "react-router-dom";
+import "../style/appLayout.css";
 
 export default function VerifyUser() {
   const navigate = useNavigate();
