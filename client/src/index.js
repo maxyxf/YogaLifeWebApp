@@ -1,11 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import App from "./App";
+import Header from "./components/Header.js";
+import Footer from "./components/Footer";
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+import ProductDetail from "./screens/ProductDetail";
 import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
-import { Navigate } from "react-router-dom";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -44,7 +48,15 @@ root.render(
       }}
     >
       <AuthTokenProvider>
-        <App />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<HomeScreen />} exact />
+            <Route path="/products" element={<ProductScreen />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
       </AuthTokenProvider>
     </Auth0Provider>
   </React.StrictMode>
