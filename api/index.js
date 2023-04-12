@@ -40,6 +40,12 @@ app.get("/api/product/:id", async (req, res) => {
   res.json(product);
 });
 
+//get a user's cart items
+
+//add a new item to a user's cart
+
+//remove an item from a user's cart
+
 app.listen(8002, () => {
   console.log("Server running on http://localhost:8002 🎉 🚀");
 });
