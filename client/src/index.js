@@ -11,6 +11,7 @@ import AuthDebugger from "./components/AuthDebugger";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
+import CartScreen from "./screens/CartScreen";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -56,7 +57,22 @@ root.render(
             <Route path="/verify-user" element={<VerifyUser />} />
             <Route path="/products" element={<ProductScreen />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="debugger" element={<AuthDebugger />} />
+            <Route
+              path="/cart"
+              element={
+                <RequireAuth>
+                  <CartScreen />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/debugger"
+              element={
+                <RequireAuth>
+                  <AuthDebugger />
+                </RequireAuth>
+              }
+            />
           </Routes>
           <Footer />
         </BrowserRouter>
