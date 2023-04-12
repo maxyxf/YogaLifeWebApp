@@ -12,6 +12,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
 import CartScreen from "./screens/CartScreen";
+import NotFound from "./components/NotFound";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -73,6 +74,7 @@ root.render(
                 </RequireAuth>
               }
             />
+            <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
         </BrowserRouter>

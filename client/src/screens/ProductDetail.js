@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
+
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const signUp = () => loginWithRedirect({ screen_hint: "signup" });
 
   useEffect(() => {
     async function getProduct() {
@@ -40,6 +44,7 @@ export default function ProductDetail() {
                 className={
                   "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
                 }
+                onClick={loginWithRedirect}
               >
                 Add to Cart
               </button>
