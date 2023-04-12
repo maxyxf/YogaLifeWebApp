@@ -5,6 +5,7 @@ import Header from "./components/Header.js";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
 import ProductScreen from "./screens/ProductScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import ProductDetail from "./screens/ProductDetail";
 import VerifyUser from "./components/VerifyUser";
 import AuthDebugger from "./components/AuthDebugger";
@@ -71,6 +72,14 @@ root.render(
               element={
                 <RequireAuth>
                   <AuthDebugger />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <RequireAuth>
+                  <ProfileScreen />
                 </RequireAuth>
               }
             />
