@@ -5,6 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
+import { Navigate } from "react-router-dom";
+
+function RequireAuth({ children }) {
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (!isLoading && !isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
 
 const requestedScopes = [
   "profile",
