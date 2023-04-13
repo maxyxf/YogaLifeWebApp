@@ -88,14 +88,14 @@ app.post("/cart/products/:id", async (req, res) => {
       id,
     },
   });
-  console.log("User:", user);
+  //console.log("User:", user);
 
   const cart = await prisma.cart.findUnique({
     where: { userId: user.id },
     include: { products: true },
   });
 
-  console.log("Cart:", cart);
+  //console.log("Cart:", cart);
 
   const product = await prisma.product.findUnique({
     where: { id: parseInt(productId) },
@@ -104,6 +104,33 @@ app.post("/cart/products/:id", async (req, res) => {
   const updatedCart = await prisma.cart.update({
     where: { userId: user.id },
     data: { products: { connect: { id: product.id } } },
+    include: { products: true },
+  });
+
+  res.json(updatedCart);
+});
+
+//remove an item from a user's cart
+app.delete("/cartItem/:id", async (req, res) => {
+  const userId = parseInt(req.params.id);
+  const { productId } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+  });
+
+  const cart = await prisma.cart.findUnique({
+    where: { userId: user.id },
+    include: { products: true },
+  });
+
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(productId) },
+  });
+
+  const updatedCart = await prisma.cart.update({
+    where: { userId: user.id },
+    data: { products: { disconnect: { id: product.id } } },
     include: { products: true },
   });
 
