@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAuthToken } from "../AuthTokenContext";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
-
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const signUp = () => loginWithRedirect({ screen_hint: "signup" });
+  const { accessToken } = useAuthToken();
 
   useEffect(() => {
     async function getProduct() {
@@ -17,6 +17,24 @@ export default function ProductDetail() {
     }
     getProduct();
   }, [id]);
+
+  async function addProductToCart(productId) {
+    const data = await fetch(`${process.env.REACT_APP_API_URL}/cart/product`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        productId: productId,
+      }),
+    });
+    if (data.ok) {
+      const newProduct = await data.json();
+    } else {
+      return null;
+    }
+  }
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -40,14 +58,25 @@ export default function ProductDetail() {
                 <span className="text-gray-600">{product.price}</span>
               </div>
 
-              <button
-                className={
-                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
-                }
-                onClick={loginWithRedirect}
-              >
-                Add to Cart
-              </button>
+              {!isAuthenticated ? (
+                <button
+                  className={
+                    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
+                  }
+                  onClick={loginWithRedirect}
+                >
+                  Add to Cart
+                </button>
+              ) : (
+                <button
+                  className={
+                    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
+                  }
+                  onClick={loginWithRedirect}
+                >
+                  Add to Cart
+                </button>
+              )}
             </div>
           </div>
         </div>

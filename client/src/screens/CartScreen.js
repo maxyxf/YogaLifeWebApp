@@ -1,29 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useAuthToken } from "../AuthTokenContext";
+import useCartItems from "../hooks/useCartItems";
 
 export default function CartScreen() {
-  const [cartItems, setCartItems] = useState([]);
-  const { accessToken } = useAuthToken();
+  const [cartItems] = useCartItems();
 
-  useEffect(() => {
-    async function getCartItemsFromApi() {
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const cart = await data.json();
-
-      setCartItems(cart.products);
-    }
-
-    if (accessToken) {
-      getCartItemsFromApi();
-    }
-  }, [accessToken]);
-
-  console.log(cartItems);
   return (
     <div>
       {cartItems.map((item) => (
