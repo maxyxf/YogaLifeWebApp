@@ -59,6 +59,8 @@ app.get("/api/product/:id", async (req, res) => {
 //   res.json(cart);
 // });
 
+//get a user's cart items
+//id is the user's id
 app.get("/cart/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -68,12 +70,44 @@ app.get("/cart/:id", async (req, res) => {
     },
   });
 
-  const cart = await prisma.cart.findMany({
+  const cart = await prisma.cart.findUnique({
     where: { userId: user.id },
     include: { products: true },
   });
 
   res.json(cart);
+});
+
+//add a new item to a user's cart
+app.post("/cart/products/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+  const { productId } = req.body;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+  console.log("User:", user);
+
+  const cart = await prisma.cart.findUnique({
+    where: { userId: user.id },
+    include: { products: true },
+  });
+
+  console.log("Cart:", cart);
+
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(productId) },
+  });
+
+  const updatedCart = await prisma.cart.update({
+    where: { userId: user.id },
+    data: { products: { connect: { id: product.id } } },
+    include: { products: true },
+  });
+
+  res.json(updatedCart);
 });
 
 app.listen(8002, () => {
