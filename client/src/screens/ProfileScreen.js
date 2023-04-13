@@ -1,7 +1,12 @@
+import "../style/appLayout.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function Profile() {
-  const { user } = useAuth0();
+  const { user, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   return (
     <div>

@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { BsCart2 } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const navigation = [
   { name: "Home", href: "", current: true },
@@ -15,6 +16,8 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const { logout } = useAuth0();
+
   return (
     <Disclosure as="nav" className="bg-lightBrown">
       {({ open }) => (
@@ -97,15 +100,17 @@ export default function Header() {
                       </Menu.Item>
                       <Menu.Item>
                         {({ active }) => (
-                          <a
-                            href="#"
+                          <button
+                            onClick={() =>
+                              logout({ returnTo: window.location.origin })
+                            }
                             className={classNames(
                               active ? "bg-gray-100" : "",
                               "block px-4 py-2 text-sm text-gray-700"
                             )}
                           >
                             Sign out
-                          </a>
+                          </button>
                         )}
                       </Menu.Item>
                     </Menu.Items>

@@ -19,7 +19,7 @@ export default function VerifyUser() {
       const user = await data.json();
 
       if (user.auth0Id) {
-        navigate("/cart");
+        navigate("/Cart");
       }
     }
 

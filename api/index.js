@@ -137,6 +137,33 @@ app.delete("/cartItem/:id", async (req, res) => {
   res.json(updatedCart);
 });
 
+// verify user status, if not registered in our database we will create it
+app.post("/verify-user", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+  const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
+  const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
+
+  const user = await prisma.user.findUnique({
+    where: {
+      auth0Id,
+    },
+  });
+
+  if (user) {
+    res.json(user);
+  } else {
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        auth0Id,
+        name,
+      },
+    });
+
+    res.json(newUser);
+  }
+});
+
 app.listen(8002, () => {
   console.log("Server running on http://localhost:8002 🎉 🚀");
 });
