@@ -2,21 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
+import useCartItems from "../hooks/useCartItems";
 
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState([]);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
-
-  useEffect(() => {
-    async function getProduct() {
-      const res = await fetch(`http://localhost:8002/api/product/${id}`);
-      const data = await res.json();
-      setProduct(data);
-    }
-    getProduct();
-  }, [id]);
+  const { cartItems, setCartItems } = useCartItems();
 
   async function addProductToCart(productId) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/cart/product`, {
@@ -30,11 +23,21 @@ export default function ProductDetail() {
       }),
     });
     if (data.ok) {
-      const newProduct = await data.json();
+      const updatedCart = await data.json();
+      setCartItems(updatedCart.products);
     } else {
       return null;
     }
   }
+
+  useEffect(() => {
+    async function getProduct() {
+      const res = await fetch(`http://localhost:8002/api/product/${id}`);
+      const data = await res.json();
+      setProduct(data);
+    }
+    getProduct();
+  }, [id]);
 
   return (
     <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -72,7 +75,7 @@ export default function ProductDetail() {
                   className={
                     "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
                   }
-                  onClick={loginWithRedirect}
+                  onClick={() => addProductToCart(product.id)}
                 >
                   Add to Cart
                 </button>
