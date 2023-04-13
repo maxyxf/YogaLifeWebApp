@@ -41,10 +41,40 @@ app.get("/api/product/:id", async (req, res) => {
 });
 
 //get a user's cart items
+// app.get("/cart", requireAuth, async (req, res) => {
+//   const auth0Id = req.auth.payload.sub;
 
-//add a new item to a user's cart
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       auth0Id,
+//     },
+//   });
 
-//remove an item from a user's cart
+//   const cart = await prisma.cart.findUnique({
+//     where: {
+//       authorId: user.id,
+//     },
+//   });
+
+//   res.json(cart);
+// });
+
+app.get("/cart/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  const cart = await prisma.cart.findMany({
+    where: { userId: user.id },
+    include: { products: true },
+  });
+
+  res.json(cart);
+});
 
 app.listen(8002, () => {
   console.log("Server running on http://localhost:8002 🎉 🚀");
