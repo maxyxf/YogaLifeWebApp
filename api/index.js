@@ -58,36 +58,34 @@ app.get("/cart", requireAuth, async (req, res) => {
 });
 
 //add a new item to a user's cart
-// app.post("/cart/products/:id", async (req, res) => {
-//   const id = parseInt(req.params.id);
-//   const { productId } = req.body;
+app.post("/cart/product", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
 
-//   const user = await prisma.user.findUnique({
-//     where: {
-//       id,
-//     },
-//   });
-//   //console.log("User:", user);
+  const { productId } = req.body;
 
-//   const cart = await prisma.cart.findUnique({
-//     where: { userId: user.id },
-//     include: { products: true },
-//   });
+  const user = await prisma.user.findUnique({
+    where: {
+      auth0Id,
+    },
+  });
 
-//   //console.log("Cart:", cart);
+  const cart = await prisma.cart.findUnique({
+    where: { userId: user.id },
+    include: { products: true },
+  });
 
-//   const product = await prisma.product.findUnique({
-//     where: { id: parseInt(productId) },
-//   });
+  const product = await prisma.product.findUnique({
+    where: { id: parseInt(productId) },
+  });
 
-//   const updatedCart = await prisma.cart.update({
-//     where: { userId: user.id },
-//     data: { products: { connect: { id: product.id } } },
-//     include: { products: true },
-//   });
+  const updatedCart = await prisma.cart.update({
+    where: { userId: user.id },
+    data: { products: { connect: { id: product.id } } },
+    include: { products: true },
+  });
 
-//   res.json(updatedCart);
-// });
+  res.json(updatedCart);
+});
 
 // //remove an item from a user's cart
 // app.delete("/cartItem/:id", async (req, res) => {
