@@ -1,9 +1,9 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { BsCart2 } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 const navigation = [
   { name: "Home", href: "", current: true },
@@ -16,6 +16,16 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const [currency, setCurrency] = useState("CAD");
+
+  const handleClick = () => {
+    if (currency === "CAD") {
+      setCurrency("USD");
+    } else {
+      setCurrency("CAD");
+    }
+  };
+
   const { logout } = useAuth0();
 
   return (
@@ -56,10 +66,25 @@ export default function Header() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div className="mr-2 mt-1">
+                <div className="ml-3 mr-3">
+                  <button
+                    onClick={handleClick}
+                    className="border border-black p-2 w-12 h-7 flex justify-center items-center"
+                    style={{
+                      fontSize: "17px",
+                      borderWidth: "1.5px",
+                    }}
+                  >
+                    {currency}
+                  </button>
+                </div>
+                <div className="ml-6 mr-6 mt-1">
                   <Link to="/cart">
                     <button type="button">
-                      <BsCart2 className="h-6 w-6" aria-hidden="true" />
+                      <HiOutlineShoppingBag
+                        className="h-7 w-7"
+                        aria-hidden="true"
+                      />
                     </button>
                   </Link>
                 </div>
