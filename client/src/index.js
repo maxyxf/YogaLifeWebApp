@@ -14,6 +14,7 @@ import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import { AuthTokenProvider } from "./AuthTokenContext";
 import CartScreen from "./screens/CartScreen";
 import NotFound from "./components/NotFound";
+import { CurrencyProvider } from "./CurrencyContext";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -53,39 +54,41 @@ root.render(
     >
       <AuthTokenProvider>
         <BrowserRouter>
-          <Header />
-          <Routes>
-            <Route path="/" element={<HomeScreen />} exact />
-            <Route path="/verify-user" element={<VerifyUser />} />
-            <Route path="/products" element={<ProductScreen />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route
-              path="/cart"
-              element={
-                <RequireAuth>
-                  <CartScreen />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/debugger"
-              element={
-                <RequireAuth>
-                  <AuthDebugger />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <RequireAuth>
-                  <ProfileScreen />
-                </RequireAuth>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
+          <CurrencyProvider>
+            <Header />
+            <Routes>
+              <Route path="/" element={<HomeScreen />} exact />
+              <Route path="/verify-user" element={<VerifyUser />} />
+              <Route path="/products" element={<ProductScreen />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route
+                path="/cart"
+                element={
+                  <RequireAuth>
+                    <CartScreen />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/debugger"
+                element={
+                  <RequireAuth>
+                    <AuthDebugger />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <ProfileScreen />
+                  </RequireAuth>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <Footer />
+          </CurrencyProvider>
         </BrowserRouter>
       </AuthTokenProvider>
     </Auth0Provider>

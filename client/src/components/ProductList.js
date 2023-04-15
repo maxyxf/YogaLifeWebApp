@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+// import useCurrency from "../hooks/useCurrency";
+import useConversion from "../hooks/useConversion";
+import { useCurrency } from "../CurrencyContext";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
+  const { currency } = useCurrency();
+  const [conversionRate, setConversionRate] = useConversion();
 
   useEffect(() => {
     async function getProducts() {
@@ -12,7 +17,8 @@ export default function ProductList() {
     }
     getProducts();
   }, []);
-
+  console.log(currency);
+  console.log(conversionRate);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -41,7 +47,11 @@ export default function ProductList() {
                   {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  ${product.price}
+                  {/* ${product.price} */}$
+                  {currency === "CAD"
+                    ? product.price
+                    : (product.price * conversionRate).toFixed(2)}{" "}
+                  {currency}
                 </p>
               </div>
             </div>

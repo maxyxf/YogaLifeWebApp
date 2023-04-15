@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
 import useCartItems from "../hooks/useCartItems";
+import { useCurrency } from "../CurrencyContext";
+import useConversion from "../hooks/useConversion";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -10,6 +12,8 @@ export default function ProductDetail() {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
   const { cartItems, setCartItems } = useCartItems();
+  const { currency } = useCurrency();
+  const [conversionRate, setConversionRate] = useConversion();
 
   async function addProductToCart(productId) {
     const data = await fetch(`${process.env.REACT_APP_API_URL}/cart/product`, {
@@ -58,7 +62,12 @@ export default function ProductDetail() {
           <div className="flex justify-center items-center w-full md:w-6/12 lg:w-7/12 px-4 py-8 md:py-0">
             <div className="flex flex-col justify-center items-center h-full w-full">
               <div className="flex items-center">
-                <span className="text-gray-600">{product.price}</span>
+                <span className="text-gray-600">
+                  {currency === "CAD"
+                    ? `$${product.price}`
+                    : `$${(product.price * conversionRate).toFixed(2)}`}{" "}
+                  {currency}
+                </span>
               </div>
 
               {!isAuthenticated ? (

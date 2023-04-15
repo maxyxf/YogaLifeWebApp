@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { useCurrency } from "../CurrencyContext";
 
 const navigation = [
   { name: "Home", href: "", current: true },
@@ -16,7 +17,7 @@ function classNames(...classes) {
 }
 
 export default function Header() {
-  const [currency, setCurrency] = useState("CAD");
+  const { currency, setCurrency } = useCurrency();
 
   const handleClick = () => {
     if (currency === "CAD") {
