@@ -98,17 +98,22 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
 });
 
 // Update the quantity of the cart item
-app.put("/cart/item/:itemId", requireAuth, async (req, res) => {
+app.put("/cart/item/:productId", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
-  const { itemId } = req.params;
+  const { productId } = req.params;
   const { quantity } = req.body;
 
   const user = await prisma.user.findUnique({
     where: { auth0Id },
   });
 
-  const cartItem = await prisma.cartItem.findUnique({
-    where: { id: parseInt(itemId) },
+  const cartItem = await prisma.cartItem.findFirst({
+    where: {
+      productId: parseInt(productId),
+      cart: {
+        userId: user.id,
+      },
+    },
     include: {
       product: true,
       cart: {
@@ -121,12 +126,8 @@ app.put("/cart/item/:itemId", requireAuth, async (req, res) => {
     return res.status(404).json({ message: "CartItem not found" });
   }
 
-  if (cartItem.cart.userId !== user.id) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
   const updatedCartItem = await prisma.cartItem.update({
-    where: { id: parseInt(itemId) },
+    where: { id: cartItem.id },
     data: { quantity: parseInt(quantity) },
     include: {
       product: true,
