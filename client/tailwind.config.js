@@ -7,6 +7,9 @@ module.exports = {
         lightBrown: "#c2b8a8",
       },
     },
-    plugins: [require("@tailwindcss/aspect-ratio")],
+    plugins: [
+      require("@tailwindcss/aspect-ratio"),
+      require("@tailwindcss/forms"),
+    ],
   },
 };
