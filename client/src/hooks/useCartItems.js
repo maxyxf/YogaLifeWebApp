@@ -13,12 +13,14 @@ export default function useCartItems() {
         },
       });
       const cart = await data.json();
-      // const cartItemsWithQuantity = cart.cartProduct.map((cartItem) => ({
-      //   ...cartItem.product,
-      //   quantity: cartItem.quantity,
-      // }));
+      const cartItemsWithQuantity = cart.products.map((product) => {
+        const cartProduct = cart.cartProduct.find(
+          (item) => item.productId === product.id
+        );
+        return { ...product, quantity: cartProduct.quantity };
+      });
 
-      setCartItems(cart.products);
+      setCartItems(cartItemsWithQuantity);
     }
 
     if (accessToken) {
