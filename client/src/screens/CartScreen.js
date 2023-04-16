@@ -12,17 +12,18 @@ export default function CartScreen() {
   const [cartItems, setCartItems] = useCartItems();
   const { accessToken } = useAuthToken();
 
+  console.log(cartItems);
   async function removeProductFromCart(productId) {
-    const data = await fetch(`${process.env.REACT_APP_API_URL}/cart/product`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        productId: productId,
-      }),
-    });
+    const data = await fetch(
+      `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     if (data.ok) {
       const updatedCart = await data.json();
       setCartItems(updatedCart.products);

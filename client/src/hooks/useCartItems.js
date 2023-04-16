@@ -13,6 +13,10 @@ export default function useCartItems() {
         },
       });
       const cart = await data.json();
+      // const cartItemsWithQuantity = cart.cartProduct.map((cartItem) => ({
+      //   ...cartItem.product,
+      //   quantity: cartItem.quantity,
+      // }));
 
       setCartItems(cart.products);
     }
@@ -22,5 +26,6 @@ export default function useCartItems() {
     }
   }, [accessToken]);
 
+  console.log(cartItems);
   return [cartItems, setCartItems];
 }

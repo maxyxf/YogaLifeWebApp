@@ -51,7 +51,7 @@ app.get("/cart", requireAuth, async (req, res) => {
 
   const cart = await prisma.cart.findUnique({
     where: { userId: user.id },
-    include: { products: true },
+    include: { products: true, cartProduct: true },
   });
 
   res.json(cart);

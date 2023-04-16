@@ -28,13 +28,11 @@ export default function ProductDetail() {
     );
     if (data.ok) {
       const updatedCart = await data.json();
-      setCartItems(updatedCart.products);
+      //setCartItems(updatedCart.cartProduct);
     } else {
       return null;
     }
   }
-
-  console.log(cartItems);
 
   useEffect(() => {
     async function getProduct() {
