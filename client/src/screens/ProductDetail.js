@@ -16,16 +16,16 @@ export default function ProductDetail() {
   const [conversionRate, setConversionRate] = useConversion();
 
   async function addProductToCart(productId) {
-    const data = await fetch(`${process.env.REACT_APP_API_URL}/cart/product`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        productId: productId,
-      }),
-    });
+    const data = await fetch(
+      `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     if (data.ok) {
       const updatedCart = await data.json();
       setCartItems(updatedCart.products);
@@ -33,6 +33,8 @@ export default function ProductDetail() {
       return null;
     }
   }
+
+  console.log(cartItems);
 
   useEffect(() => {
     async function getProduct() {
@@ -84,6 +86,7 @@ export default function ProductDetail() {
                   className={
                     "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
                   }
+                  // onClick={() => handleClick(product.id)}
                   onClick={() => addProductToCart(product.id)}
                 >
                   Add to Cart
