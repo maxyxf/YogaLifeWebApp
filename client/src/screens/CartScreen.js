@@ -3,6 +3,7 @@ import { useAuthToken } from "../AuthTokenContext";
 import useCartItems from "../hooks/useCartItems";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
+import { Link } from "react-router-dom";
 import {
   CheckIcon,
   ClockIcon,
@@ -112,11 +113,13 @@ export default function CartScreen() {
               {cartItems.map((product, productIdx) => (
                 <li key={product.id} className="flex py-6 sm:py-10">
                   <div className="flex-shrink-0">
-                    <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
-                      className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
-                    />
+                    <Link to={`/product/${product.id}`}>
+                      <img
+                        src={product.imageSrc}
+                        alt={product.imageAlt}
+                        className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                      />
+                    </Link>
                   </div>
 
                   <div className="ml-4 flex flex-1 flex-col justify-between sm:ml-6">
@@ -124,12 +127,14 @@ export default function CartScreen() {
                       <div>
                         <div className="flex justify-between">
                           <h3 className="text-sm">
-                            <a
-                              href={product.href}
-                              className="font-medium text-gray-700 hover:text-gray-800"
-                            >
-                              {product.name}
-                            </a>
+                            <Link to={`/product/${product.id}`}>
+                              <a
+                                href={product.href}
+                                className="font-medium text-gray-700 hover:text-gray-800"
+                              >
+                                {product.name}
+                              </a>
+                            </Link>
                           </h3>
                         </div>
                         <div className="mt-1 flex text-sm">
