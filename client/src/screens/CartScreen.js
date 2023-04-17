@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import useCartItems from "../hooks/useCartItems";
+import { useCurrency } from "../CurrencyContext";
+import useConversion from "../hooks/useConversion";
 import {
   CheckIcon,
   ClockIcon,
@@ -14,13 +16,15 @@ export default function CartScreen() {
   const [price, setPrice] = useState(0);
   const [tax, setTax] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+  const { currency } = useCurrency();
+  const [conversionRate, setConversionRate] = useConversion();
 
   useEffect(() => {
     const newPrice = cartItems.reduce((total, item) => {
       return total + item.price * item.quantity;
     }, 0);
-    const newTax = newPrice * 0.12;
-    const newTotalPrice = newPrice + newTax + 8;
+    const newTax = (newPrice * 0.12).toFixed(2);
+    const newTotalPrice = newPrice + parseFloat(newTax) + 8;
     setPrice(newPrice);
     setTax(newTax);
     setTotalPrice(newTotalPrice);
@@ -125,7 +129,12 @@ export default function CartScreen() {
                           ) : null}
                         </div>
                         <p className="mt-1 text-sm font-medium text-gray-900">
-                          ${product.price}
+                          {currency === "CAD"
+                            ? `$${product.price}`
+                            : `$${(product.price * conversionRate).toFixed(
+                                2
+                              )}`}{" "}
+                          {currency}
                         </p>
                       </div>
 
