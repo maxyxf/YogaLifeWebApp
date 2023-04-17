@@ -44,13 +44,14 @@ app.get("/api/product/:id", async (req, res) => {
 
 //add a product
 app.post("/api/product", async (req, res) => {
-  const { name, price, imageSrc } = req.body;
+  const { name, price, imageSrc, description } = req.body;
 
   const product = await prisma.product.create({
     data: {
       name,
       price,
       imageSrc,
+      description,
     },
   });
 
