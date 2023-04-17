@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import useCartItems from "../hooks/useCartItems";
 import {
@@ -11,8 +11,45 @@ import {
 export default function CartScreen() {
   const [cartItems, setCartItems] = useCartItems();
   const { accessToken } = useAuthToken();
+  const [price, setPrice] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  console.log(cartItems);
+  useEffect(() => {
+    const newPrice = cartItems.reduce((total, item) => {
+      return total + item.price * item.quantity;
+    }, 0);
+    const newTax = newPrice * 0.12;
+    const newTotalPrice = newPrice + newTax + 8;
+    setPrice(newPrice);
+    setTax(newTax);
+    setTotalPrice(newTotalPrice);
+  }, [cartItems]);
+
+  async function handleQuantityChange(productId, quantity) {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/cart/item/${productId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          quantity: quantity,
+        }),
+      }
+    );
+    const updatedCart = await response.json();
+
+    setCartItems(updatedCart.products);
+  }
+
+  const handleSelectChange = (event, productId) => {
+    const newQuantity = event.target.value;
+    handleQuantityChange(productId, newQuantity);
+  };
+
   async function removeProductFromCart(productId) {
     const data = await fetch(
       `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
@@ -32,13 +69,13 @@ export default function CartScreen() {
     }
   }
 
-  const price = cartItems.reduce((total, item) => {
-    return total + item.price;
-  }, 0);
+  // const price = cartItems.reduce((total, item) => {
+  //   return total + item.price * item.quantity;
+  // }, 0);
 
-  const tax = price * 0.12;
+  // const tax = price * 0.12;
 
-  const totalPrice = price + tax + 8;
+  // const totalPrice = price + tax + 8;
 
   return (
     <div className="bg-white">
@@ -104,6 +141,9 @@ export default function CartScreen() {
                           name={`quantity-${productIdx}`}
                           className="w-20 rounded-md border border-gray-300 py-1.5 text-center text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                           defaultValue={product.quantity}
+                          onChange={(event) =>
+                            handleSelectChange(event, product.id)
+                          }
                         >
                           /* <option value={1}>1</option>
                           <option value={2}>2</option>

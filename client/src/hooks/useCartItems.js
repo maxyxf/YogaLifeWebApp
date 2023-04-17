@@ -13,6 +13,11 @@ export default function useCartItems() {
         },
       });
       const cart = await data.json();
+      // const cartItemsWithQuantity = cart.cartProduct.map((cartItem) => ({
+      //   ...cartItem.product,
+      //   quantity: cartItem.quantity,
+      // }));
+      console.log(cart);
       const cartItemsWithQuantity = cart.products.map((product) => {
         const cartProduct = cart.cartProduct.find(
           (item) => item.productId === product.id
@@ -21,6 +26,7 @@ export default function useCartItems() {
       });
 
       setCartItems(cartItemsWithQuantity);
+      // setCartItems(cart.products);
     }
 
     if (accessToken) {
