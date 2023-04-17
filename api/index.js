@@ -222,7 +222,7 @@ app.put("/cart/item/:productId", requireAuth, async (req, res) => {
 
   const updatedCart = await prisma.cart.findUnique({
     where: { id: updatedCartItem.cartId },
-    include: { products: true },
+    include: { products: true, cartProduct: true },
   });
 
   res.json(updatedCart);
@@ -259,7 +259,7 @@ app.delete("/cart/product/:productId", requireAuth, async (req, res) => {
       products: { disconnect: { id: product.id } },
       cartProduct: { deleteMany: { productId: product.id } },
     },
-    include: { products: true },
+    include: { products: true, cartProduct: true },
   });
 
   res.json(updatedCart);

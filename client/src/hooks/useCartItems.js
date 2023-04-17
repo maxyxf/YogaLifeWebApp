@@ -17,7 +17,7 @@ export default function useCartItems() {
       //   ...cartItem.product,
       //   quantity: cartItem.quantity,
       // }));
-      console.log(cart);
+      //console.log(cart);
       const cartItemsWithQuantity = cart.products.map((product) => {
         const cartProduct = cart.cartProduct.find(
           (item) => item.productId === product.id
@@ -34,6 +34,6 @@ export default function useCartItems() {
     }
   }, [accessToken]);
 
-  console.log(cartItems);
+  //console.log(cartItems);
   return [cartItems, setCartItems];
 }

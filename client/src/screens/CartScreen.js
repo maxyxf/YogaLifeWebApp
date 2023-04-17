@@ -15,6 +15,7 @@ export default function CartScreen() {
   const { accessToken } = useAuthToken();
   const [price, setPrice] = useState(0);
   const [tax, setTax] = useState(0);
+  const [shipping, setShipping] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
@@ -24,9 +25,15 @@ export default function CartScreen() {
       return total + item.price * item.quantity;
     }, 0);
     const newTax = (newPrice * 0.12).toFixed(2);
-    const newTotalPrice = newPrice + parseFloat(newTax) + 8;
+    const newShippingCost = cartItems.length > 0 ? 8 : 0;
+    const newTotalPrice = (
+      newPrice +
+      parseFloat(newTax) +
+      newShippingCost
+    ).toFixed(2);
     setPrice(newPrice);
     setTax(newTax);
+    setShipping(newShippingCost);
     setTotalPrice(newTotalPrice);
   }, [cartItems]);
 
@@ -44,9 +51,15 @@ export default function CartScreen() {
         }),
       }
     );
-    const updatedCart = await response.json();
+    const cart = await response.json();
+    const cartItemsWithQuantity = cart.products.map((product) => {
+      const cartProduct = cart.cartProduct.find(
+        (item) => item.productId === product.id
+      );
+      return { ...product, quantity: cartProduct.quantity };
+    });
 
-    setCartItems(updatedCart.products);
+    setCartItems(cartItemsWithQuantity);
   }
 
   const handleSelectChange = (event, productId) => {
@@ -55,7 +68,7 @@ export default function CartScreen() {
   };
 
   async function removeProductFromCart(productId) {
-    const data = await fetch(
+    const response = await fetch(
       `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
       {
         method: "DELETE",
@@ -65,21 +78,20 @@ export default function CartScreen() {
         },
       }
     );
-    if (data.ok) {
-      const updatedCart = await data.json();
-      setCartItems(updatedCart.products);
+    if (response.ok) {
+      const cart = await response.json();
+      const cartItemsWithQuantity = cart.products.map((product) => {
+        const cartProduct = cart.cartProduct.find(
+          (item) => item.productId === product.id
+        );
+        return { ...product, quantity: cartProduct.quantity };
+      });
+
+      setCartItems(cartItemsWithQuantity);
     } else {
       return null;
     }
   }
-
-  // const price = cartItems.reduce((total, item) => {
-  //   return total + item.price * item.quantity;
-  // }, 0);
-
-  // const tax = price * 0.12;
-
-  // const totalPrice = price + tax + 8;
 
   return (
     <div className="bg-white">
@@ -218,7 +230,12 @@ export default function CartScreen() {
             <dl className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <dt className="text-sm text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">${price}</dd>
+                <dd className="text-sm font-medium text-gray-900">
+                  {currency === "CAD"
+                    ? `$${price}`
+                    : `$${(price * conversionRate).toFixed(2)}`}{" "}
+                  {currency}
+                </dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex items-center text-sm text-gray-600">
@@ -236,7 +253,12 @@ export default function CartScreen() {
                     />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">$8.00</dd>
+                <dd className="text-sm font-medium text-gray-900">
+                  {currency === "CAD"
+                    ? `$${shipping}`
+                    : `$${(shipping * conversionRate).toFixed(2)}`}{" "}
+                  {currency}
+                </dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="flex text-sm text-gray-600">
@@ -254,14 +276,23 @@ export default function CartScreen() {
                     />
                   </a>
                 </dt>
-                <dd className="text-sm font-medium text-gray-900">${tax}</dd>
+                <dd className="text-sm font-medium text-gray-900">
+                  {" "}
+                  {currency === "CAD"
+                    ? `$${tax}`
+                    : `$${(tax * conversionRate).toFixed(2)}`}{" "}
+                  {currency}
+                </dd>
               </div>
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">
                   Order total
                 </dt>
                 <dd className="text-base font-medium text-gray-900">
-                  ${totalPrice}
+                  {currency === "CAD"
+                    ? `$${totalPrice}`
+                    : `$${(totalPrice * conversionRate).toFixed(2)}`}{" "}
+                  {currency}
                 </dd>
               </div>
             </dl>
