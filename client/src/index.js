@@ -16,6 +16,7 @@ import CartScreen from "./screens/CartScreen";
 import NotFound from "./components/NotFound";
 import { CurrencyProvider } from "./CurrencyContext";
 import ProductListScreen from "./screens/ProductListScreen";
+import AddProductScreen from "./screens/AddProductScreen";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -91,6 +92,14 @@ root.render(
                 element={
                   <RequireAuth>
                     <ProductListScreen />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/addproduct"
+                element={
+                  <RequireAuth>
+                    <AddProductScreen />
                   </RequireAuth>
                 }
               />
