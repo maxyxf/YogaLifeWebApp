@@ -23,6 +23,7 @@ model Product {
   name        String
   price       Float
   imageSrc    String?
+  description String?
   cart        Cart[]
   cartProduct CartItem[]
 }

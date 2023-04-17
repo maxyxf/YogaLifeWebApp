@@ -16,6 +16,10 @@ export default function ProductDetail() {
   const [conversionRate, setConversionRate] = useConversion();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   async function addProductToCart(productId, quantity) {
     const data = await fetch(
       `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
@@ -55,67 +59,70 @@ export default function ProductDetail() {
   }, [id]);
 
   return (
-    <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div className="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-        <div className="flex justify-between items-center px-6 py-4 bg-gray-100">
-          <div className="text-gray-600">{product.name}</div>
-        </div>
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+        <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
+          <img
+            src={product.imageSrc}
+            alt={product.imageSrc}
+            className="h-full w-full object-cover object-center sm:rounded-lg float-left"
+          />
 
-        <div className="flex flex-wrap justify-between px-6 py-4">
-          <div className="w-full md:w-6/12 lg:w-5/12">
-            <img
-              src={product.imageSrc}
-              alt={product.name}
-              className="w-full object-contain"
-            />
-          </div>
+          {/* Product info */}
+          <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              {product.name}
+            </h1>
 
-          <div className="flex justify-center items-center w-full md:w-6/12 lg:w-7/12 px-4 py-8 md:py-0">
-            <div className="flex flex-col justify-center items-center h-full w-full">
-              <div className="flex items-center">
-                <span className="text-gray-600">
-                  {currency === "CAD"
-                    ? `$${product.price}`
-                    : `$${(product.price * conversionRate).toFixed(2)}`}{" "}
-                  {currency}
-                </span>
-              </div>
-              <div className="flex justify-between items-center flex-wrap">
-                <select
-                  className="w-20 h-10 rounded-md border border-gray-300 py-1.5 text-center text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm mt-4 mr-4"
-                  defaultValue={1}
-                  onChange={(event) => handleSelectChange(event)}
+            <div className="mt-10">
+              <h2 className="sr-only">Product information</h2>
+              <p className="text-3xl tracking-tight text-gray-900">
+                {currency === "CAD"
+                  ? `$${product.price}`
+                  : `$${(product.price * conversionRate).toFixed(2)}`}{" "}
+                {currency}
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <h3 className="sr-only">Description</h3>
+
+              <div
+                className="space-y-6 text-base text-gray-700"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+            </div>
+
+            <div className="sm:flex-col1 mt-10 flex">
+              <select
+                className="w-20 h-10 rounded-md border border-gray-300 py-1.5 text-center text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm mt-1 mr-4"
+                defaultValue={1}
+                onChange={(event) => handleSelectChange(event)}
+              >
+                /* <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+                <option value={6}>6</option>
+                <option value={7}>7</option>
+                <option value={8}>8</option>
+              </select>
+              {!isAuthenticated ? (
+                <button
+                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                  onClick={loginWithRedirect}
                 >
-                  /* <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                  <option value={7}>7</option>
-                  <option value={8}>8</option>
-                </select>
-
-                {!isAuthenticated ? (
-                  <button
-                    className={
-                      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
-                    }
-                    onClick={loginWithRedirect}
-                  >
-                    Add to Cart
-                  </button>
-                ) : (
-                  <button
-                    className={
-                      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
-                    }
-                    onClick={handleAddtoCart}
-                  >
-                    Add to Cart
-                  </button>
-                )}
-              </div>
+                  Add to Cart
+                </button>
+              ) : (
+                <button
+                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                  onClick={handleAddtoCart}
+                >
+                  Add to Cart
+                </button>
+              )}
             </div>
           </div>
         </div>
