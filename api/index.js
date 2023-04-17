@@ -26,11 +26,13 @@ app.get("/ping", (req, res) => {
   res.send("pong");
 });
 
+//get all products
 app.get("/api/products", async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
 });
 
+//get a single product by product id
 app.get("/api/product/:id", async (req, res) => {
   const product = await prisma.product.findUnique({
     where: {
@@ -40,6 +42,22 @@ app.get("/api/product/:id", async (req, res) => {
   res.json(product);
 });
 
+//add a product
+app.post("/api/product", async (req, res) => {
+  const { name, price, imageSrc } = req.body;
+
+  const product = await prisma.product.create({
+    data: {
+      name,
+      price,
+      imageSrc,
+    },
+  });
+
+  res.json(product);
+});
+
+//delete a product
 app.delete("/api/product/:id", async (req, res) => {
   const product = await prisma.product.delete({
     where: {
