@@ -1,14 +1,35 @@
-const people = [
-  {
-    name: "Lindsay Walton",
-    title: "Front-end Developer",
-    email: "lindsay.walton@example.com",
-    role: "Member",
-  },
-  // More people...
-];
+import React, { useEffect, useState } from "react";
 
 export default function ProductListScreen() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function getProducts() {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`);
+      const data = await res.json();
+      setProducts(data);
+    }
+    getProducts();
+  }, []);
+
+  const handleDelete = async (productId) => {
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/product/${productId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const deletedProduct = await response.json();
+      setProducts(
+        products.filter((product) => product.id !== deletedProduct.id)
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 mt-8">
       <div className="sm:flex sm:items-center">
@@ -37,25 +58,25 @@ export default function ProductListScreen() {
                       scope="col"
                       className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                     >
+                      ID
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Name
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Title
+                      Price
                     </th>
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Email
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Role
+                      ImageSrc
                     </th>
                     <th
                       scope="col"
@@ -66,33 +87,36 @@ export default function ProductListScreen() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {people.map((person) => (
-                    <tr key={person.email}>
+                  {products.map((product) => (
+                    <tr key={product.id}>
                       <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                        {person.name}
+                        {product.id}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.title}
+                        {product.name}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.email}
+                        {product.price}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {person.role}
+                        {product.imageSrc}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a
+                        {/* <a
                           href="#"
                           className="text-indigo-600 hover:text-indigo-900 mr-4"
                         >
-                          Edit<span className="sr-only">, {person.name}</span>
-                        </a>
-                        <a
-                          href="#"
+                          Edit<span className="sr-only">, {product.name}</span>
+                        </a> */}
+                        <button
                           className="text-indigo-600 hover:text-indigo-900"
+                          onClick={() => {
+                            handleDelete(product.id);
+                          }}
                         >
-                          Delete<span className="sr-only">, {person.name}</span>
-                        </a>
+                          Delete
+                          <span className="sr-only">{product.name}</span>
+                        </button>
                       </td>
                     </tr>
                   ))}

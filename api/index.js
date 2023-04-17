@@ -40,6 +40,15 @@ app.get("/api/product/:id", async (req, res) => {
   res.json(product);
 });
 
+app.delete("/api/product/:id", async (req, res) => {
+  const product = await prisma.product.delete({
+    where: {
+      id: parseInt(req.params.id),
+    },
+  });
+  res.json(product);
+});
+
 //get a user's cart items
 app.get("/cart", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
