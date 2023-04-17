@@ -14,8 +14,9 @@ export default function ProductDetail() {
   const { cartItems, setCartItems } = useCartItems();
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
 
-  async function addProductToCart(productId) {
+  async function addProductToCart(productId, quantity) {
     const data = await fetch(
       `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
       {
@@ -24,15 +25,25 @@ export default function ProductDetail() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
+        body: JSON.stringify({
+          quantity: quantity,
+        }),
       }
     );
     if (data.ok) {
       const updatedCart = await data.json();
-      //setCartItems(updatedCart.cartProduct);
     } else {
       return null;
     }
   }
+
+  const handleSelectChange = (event) => {
+    setSelectedQuantity(event.target.value);
+  };
+
+  const handleAddtoCart = () => {
+    addProductToCart(product.id, selectedQuantity);
+  };
 
   useEffect(() => {
     async function getProduct() {
@@ -69,27 +80,42 @@ export default function ProductDetail() {
                   {currency}
                 </span>
               </div>
+              <div className="flex justify-between items-center flex-wrap">
+                <select
+                  className="w-20 h-10 rounded-md border border-gray-300 py-1.5 text-center text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm mt-4 mr-4"
+                  defaultValue={1}
+                  onChange={(event) => handleSelectChange(event)}
+                >
+                  /* <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                </select>
 
-              {!isAuthenticated ? (
-                <button
-                  className={
-                    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
-                  }
-                  onClick={loginWithRedirect}
-                >
-                  Add to Cart
-                </button>
-              ) : (
-                <button
-                  className={
-                    "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
-                  }
-                  // onClick={() => handleClick(product.id)}
-                  onClick={() => addProductToCart(product.id)}
-                >
-                  Add to Cart
-                </button>
-              )}
+                {!isAuthenticated ? (
+                  <button
+                    className={
+                      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
+                    }
+                    onClick={loginWithRedirect}
+                  >
+                    Add to Cart
+                  </button>
+                ) : (
+                  <button
+                    className={
+                      "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 w-30"
+                    }
+                    onClick={handleAddtoCart}
+                  >
+                    Add to Cart
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

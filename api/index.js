@@ -57,50 +57,11 @@ app.get("/cart", requireAuth, async (req, res) => {
   res.json(cart);
 });
 
-// //add a new item to a user's cart
-// app.post("/cart/product/:productId", requireAuth, async (req, res) => {
-//   const auth0Id = req.auth.payload.sub;
-//   const { productId } = req.params;
-
-//   try {
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         auth0Id,
-//       },
-//     });
-//     const cart = await prisma.cart.findUnique({
-//       where: { userId: user.id },
-//       include: { products: true },
-//     });
-//     const product = await prisma.product.findUnique({
-//       where: { id: parseInt(productId) },
-//     });
-
-//     const updatedCart = await prisma.cart.update({
-//       where: { userId: user.id },
-//       data: { products: { connect: { id: product.id } } },
-//       include: { products: true },
-//     });
-
-//     const newCartItem = await prisma.cartItem.create({
-//       data: {
-//         quantity: 1,
-//         product: { connect: { id: product.id } },
-//         cart: { connect: { id: cart.id } },
-//       },
-//     });
-
-//     res.json(updatedCart);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send("Error adding product to cart");
-//   }
-// });
-
-//add a new item to a user's cart or add quantity of the item
+//add a new item to a user's cart
 app.post("/cart/product/:productId", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
   const { productId } = req.params;
+  const { quantity } = req.body; // Get the quantity from the request body
 
   try {
     const user = await prisma.user.findUnique({
@@ -139,9 +100,7 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
       const updatedCartItem = await prisma.cartItem.update({
         where: { id: cartItem.id },
         data: {
-          quantity: {
-            increment: 1,
-          },
+          quantity: parseInt(quantity),
         },
       });
 
@@ -161,7 +120,7 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
 
       const newCartItem = await prisma.cartItem.create({
         data: {
-          quantity: 1,
+          quantity: parseInt(quantity), // Set the quantity to the value from the request body
           product: { connect: { id: product.id } },
           cart: { connect: { id: updatedCart.id } },
         },
