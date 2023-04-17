@@ -5,6 +5,7 @@ import { useAuthToken } from "../AuthTokenContext";
 import useCartItems from "../hooks/useCartItems";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
+import { Link } from "react-router-dom";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -15,10 +16,6 @@ export default function ProductDetail() {
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
 
   async function addProductToCart(productId, quantity) {
     const data = await fetch(
@@ -113,15 +110,17 @@ export default function ProductDetail() {
                   className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
                   onClick={loginWithRedirect}
                 >
-                  Add to Cart
+                  Login
                 </button>
               ) : (
-                <button
-                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
-                  onClick={handleAddtoCart}
-                >
-                  Add to Cart
-                </button>
+                <Link to="/cart">
+                  <button
+                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                    onClick={handleAddtoCart}
+                  >
+                    Add to Cart
+                  </button>
+                </Link>
               )}
             </div>
           </div>
