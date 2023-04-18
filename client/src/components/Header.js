@@ -67,19 +67,15 @@ export default function Header() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <div className="ml-3 mr-3">
+                <div className="lg:ml-3 lg:mr-3">
                   <button
                     onClick={handleClick}
-                    className="border border-black p-2 w-12 h-7 flex justify-center items-center"
-                    style={{
-                      fontSize: "17px",
-                      borderWidth: "1.5px",
-                    }}
+                    className="border border-black p-2 lg:w-12 lg:h-7 sm: w-10 sm: h-6 flex justify-center items-center sm:text-sm "
                   >
                     {currency}
                   </button>
                 </div>
-                <div className="ml-6 mr-6 mt-1">
+                <div className="lg:ml-6 lg:mr-6 sm: ml-2 sm: mr-2 mt-1">
                   <Link to="/cart">
                     <button type="button">
                       <HiOutlineShoppingBag
@@ -90,7 +86,7 @@ export default function Header() {
                   </Link>
                 </div>
                 {/* Profile dropdown */}
-                <Menu as="div" className="relative ml-3">
+                <Menu as="div" className="relative lg:ml-3">
                   <div>
                     <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="sr-only">Open user menu</span>
