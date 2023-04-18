@@ -37,8 +37,8 @@ export default function AddProductScreen() {
 
   return (
     <form>
-      <div className="space-y-12 m-5">
-        <div className="border-b border-gray-900/10 pb-12">
+      <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8 space-y-12 ">
+        <div className="border-b border-gray-900/10 ">
           <h2 className="text-xl font-semibold leading-7 text-gray-900">
             Add Product
           </h2>
@@ -118,7 +118,7 @@ export default function AddProductScreen() {
         </div>
       </div>
 
-      <div className="mt-6 mr-6 flex items-center justify-end gap-x-6">
+      <div className="mx-auto max-w-2xl px-4 pb-24 sm:px-6 lg:max-w-7xl lg:px-8 mr-32 flex items-center justify-end gap-x-6">
         <Link to="/productList">
           <button
             type="button"
