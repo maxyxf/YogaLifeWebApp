@@ -37,6 +37,9 @@ export default function HomeScreen() {
           </div>
         </div>
       </div>
+      <h2 className="flex items-center justify-center text-2xl font-bold tracking-tight text-gray-900">
+        Featured Products
+      </h2>
       <ProductList />;
     </>
   );
