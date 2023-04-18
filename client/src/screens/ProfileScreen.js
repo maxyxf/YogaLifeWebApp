@@ -1,6 +1,17 @@
 import "../style/appLayout.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import { Dialog, Switch } from "@headlessui/react";
+import { Bars3Icon } from "@heroicons/react/20/solid";
+import {
+  BellIcon,
+  CreditCardIcon,
+  CubeIcon,
+  FingerPrintIcon,
+  UserCircleIcon,
+  UsersIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,14 +29,14 @@ export default function Profile() {
   }
 
   return (
-    <div className="divide-y divide-white/5">
+    <div className="mx-auto max-w-2xl px-4 pb-24  sm:px-6 lg:max-w-7xl lg:px-8 divide-y divide-white/5">
       <div className="grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 sm:px-6 md:grid-cols-3 lg:px-8">
         <div>
-          <h2 className="text-xl font-semibold leading-7 text-black ml-60">
+          <h2 className="text-xl font-semibold leading-7 text-black ml-0">
             Personal Information
           </h2>
         </div>
-        <form className="md:col-span-2 ml-10 mt-2">
+        <form className="md:col-span-2 ml-10 mt-10">
           <div className="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
             <div className="col-span-full flex items-center gap-x-8">
               <img
@@ -87,5 +98,23 @@ export default function Profile() {
         </form>
       </div>
     </div>
+
+    // <div>
+    //   <div>
+    //     <p>Name: {user.name}</p>
+    //   </div>
+    //   <div>
+    //     <img src={user.picture} width="70" alt="profile avatar" />
+    //   </div>
+    //   <div>
+    //     <p>📧 Email: {user.email}</p>
+    //   </div>
+    //   <div>
+    //     <p>🔑 Auth0Id: {user.sub}</p>
+    //   </div>
+    //   <div>
+    //     <p>✅ Email verified: {user.email_verified?.toString()}</p>
+    //   </div>
+    // </div>
   );
 }

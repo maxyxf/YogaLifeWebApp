@@ -32,7 +32,7 @@ export default function ProductListScreen() {
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 mt-8">
+    <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold leading-6 text-gray-900">
@@ -75,12 +75,7 @@ export default function ProductListScreen() {
                     >
                       Price
                     </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      ImageSrc
-                    </th>
+
                     <th
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
@@ -107,11 +102,9 @@ export default function ProductListScreen() {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {product.price}
                       </td>
+
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         {product.description}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {product.imageSrc}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         {/* <a
