@@ -9,15 +9,15 @@ export default function ShopScreen() {
     <>
       <div className="xl:pl-45">
         {/* Sticky search header */}
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 bg-white px-4 sm:px-10 lg:px-60 mt-5">
+        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 bg-white px-4 sm:px-6 lg:px-60 mt-7">
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <form className="flex flex-1" action="#" method="GET">
               <label htmlFor="search-field" className="sr-only">
                 Search
               </label>
-              <div className="relative w-full">
+              <div className="relative mx-auto w-full md:w-3/5 lg:w-3/5 ">
                 <MagnifyingGlassIcon
-                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-500"
+                  className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 ml-1 text-gray-500"
                   aria-hidden="true"
                 />
                 <input
