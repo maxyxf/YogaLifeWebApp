@@ -4,7 +4,7 @@ import "./style/index.css";
 import Header from "./components/Header.js";
 import Footer from "./components/Footer";
 import HomeScreen from "./screens/HomeScreen";
-import ProductScreen from "./screens/ProductScreen";
+import ShopScreen from "./screens/ShopScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import ProductDetail from "./screens/ProductDetail";
 import VerifyUser from "./components/VerifyUser";
@@ -61,7 +61,7 @@ root.render(
             <Routes>
               <Route path="/" element={<HomeScreen />} exact />
               <Route path="/verify-user" element={<VerifyUser />} />
-              <Route path="/products" element={<ProductScreen />} />
+              <Route path="/products" element={<ShopScreen />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route
                 path="/cart"

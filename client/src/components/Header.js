@@ -7,7 +7,7 @@ import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { useCurrency } from "../CurrencyContext";
 
 const navigation = [
-  { name: "Home", href: "", current: true },
+  { name: "Home", href: "/", current: true },
   { name: "Shop", href: "/products", current: false },
   { name: "Auth Debugger", href: "/debugger", current: false },
 ];
