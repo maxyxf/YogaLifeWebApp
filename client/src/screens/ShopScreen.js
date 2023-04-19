@@ -1,29 +1,27 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import ProductList from "../components/ProductList";
-import { useState } from "react";
 import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+import useProducts from "../hooks/useProducts";
 
 export default function ShopScreen() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [products, setProducts] = useProducts();
+  const [searchProducts, setSearchProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    if (searchText) {
-      setItems(
-        itemsInitialState
-          .filter((i) =>
-            i.name.toLowerCase().includes(searchText.toLowerCase())
-          )
-          .filter((i) => !selectedItems.map((m) => m.id).includes(i.id))
-      );
-    } else {
-      setItems(
-        itemsInitialState.filter(
-          (i) => !selectedItems.map((m) => m.id).includes(i.id)
-        )
-      );
-    }
-  }, [searchText, setItems, selectedItems]);
+    setSearchProducts(products);
+  }, [products]);
+
+  console.log("products:", products);
+  console.log("searchProducts:", searchProducts);
+
+  useEffect(() => {
+    setSearchProducts(
+      products.filter((i) =>
+        i.name.toLowerCase().includes(searchText.toLowerCase())
+      )
+    );
+  }, [searchText]);
 
   return (
     <>
@@ -53,7 +51,7 @@ export default function ShopScreen() {
           </div>
         </div>
       </div>
-      <ProductList />;
+      <ProductList products={searchProducts} />;
     </>
   );
 }
