@@ -1,24 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import useCurrency from "../hooks/useCurrency";
 import useConversion from "../hooks/useConversion";
 import { useCurrency } from "../CurrencyContext";
 
-export default function ProductList() {
-  const [products, setProducts] = useState([]);
+export default function ProductList({ products }) {
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
 
-  useEffect(() => {
-    async function getProducts() {
-      const res = await fetch("http://localhost:8002/api/products");
-      const data = await res.json();
-      setProducts(data);
-    }
-    getProducts();
-  }, []);
-  //console.log(currency);
-  //console.log(conversionRate);
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-15 lg:max-w-7xl lg:px-8">
@@ -40,10 +28,9 @@ export default function ProductList() {
                       {product.name}
                     </Link>
                   </h3>
-                  {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  {/* ${product.price} */}$
+                  $
                   {currency === "CAD"
                     ? product.price
                     : (product.price * conversionRate).toFixed(2)}{" "}

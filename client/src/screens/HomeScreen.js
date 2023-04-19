@@ -1,8 +1,12 @@
 import React from "react";
 import ProductList from "../components/ProductList";
 import { Link } from "react-router-dom";
+import useProducts from "../hooks/useProducts";
 
 export default function HomeScreen() {
+  const [products, setProducts] = useProducts();
+  const latestProduct = products.slice(-8).reverse();
+
   return (
     <>
       <div className="bg-white">
@@ -38,9 +42,9 @@ export default function HomeScreen() {
         </div>
       </div>
       <h2 className="flex items-center justify-center text-2xl font-bold tracking-tight text-gray-900">
-        Featured Products
+        Latest Products
       </h2>
-      <ProductList />;
+      <ProductList products={latestProduct} />;
     </>
   );
 }

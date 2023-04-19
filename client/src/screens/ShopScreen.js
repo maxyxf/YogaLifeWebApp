@@ -5,6 +5,26 @@ import { Bars3Icon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 export default function ShopScreen() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    if (searchText) {
+      setItems(
+        itemsInitialState
+          .filter((i) =>
+            i.name.toLowerCase().includes(searchText.toLowerCase())
+          )
+          .filter((i) => !selectedItems.map((m) => m.id).includes(i.id))
+      );
+    } else {
+      setItems(
+        itemsInitialState.filter(
+          (i) => !selectedItems.map((m) => m.id).includes(i.id)
+        )
+      );
+    }
+  }, [searchText, setItems, selectedItems]);
+
   return (
     <>
       <div className="xl:pl-45">
@@ -26,6 +46,7 @@ export default function ShopScreen() {
                   placeholder="Search..."
                   type="search"
                   name="search"
+                  onChange={(e) => setSearchText(e.target.value)}
                 />
               </div>
             </form>

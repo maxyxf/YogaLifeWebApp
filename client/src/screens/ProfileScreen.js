@@ -1,17 +1,6 @@
 import "../style/appLayout.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
-import { Dialog, Switch } from "@headlessui/react";
-import { Bars3Icon } from "@heroicons/react/20/solid";
-import {
-  BellIcon,
-  CreditCardIcon,
-  CubeIcon,
-  FingerPrintIcon,
-  UserCircleIcon,
-  UsersIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
 
 export default function Profile() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
