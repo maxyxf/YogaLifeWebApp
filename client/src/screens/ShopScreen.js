@@ -9,7 +9,7 @@ export default function ShopScreen() {
     <>
       <div className="xl:pl-45">
         {/* Sticky search header */}
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-6 bg-white px-4 sm:px-6 lg:px-60 mt-7">
+        <div className=" flex h-16 shrink-0 items-center gap-x-6 px-4 sm:px-6 lg:px-60 mt-7">
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
             <form className="flex flex-1" action="#" method="GET">
               <label htmlFor="search-field" className="sr-only">
