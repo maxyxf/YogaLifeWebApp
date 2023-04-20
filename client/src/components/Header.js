@@ -77,7 +77,7 @@ export default function Header() {
                 </div>
                 <div className="lg:ml-6 lg:mr-6 sm: ml-2 sm: mr-2 mt-1">
                   <Link to="/cart">
-                    <button type="button">
+                    <button type="button" aria-label="Shopping Cart">
                       <HiOutlineShoppingBag
                         className="h-7 w-7"
                         aria-hidden="true"

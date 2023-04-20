@@ -116,7 +116,7 @@ export default function CartScreen() {
                     <Link to={`/product/${product.id}`}>
                       <img
                         src={product.imageSrc}
-                        alt={product.imageAlt}
+                        alt={product.name}
                         className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                       />
                     </Link>
@@ -128,12 +128,7 @@ export default function CartScreen() {
                         <div className="flex justify-between">
                           <h3 className="text-sm">
                             <Link to={`/product/${product.id}`}>
-                              <a
-                                href={product.href}
-                                className="font-medium text-gray-700 hover:text-gray-800"
-                              >
-                                {product.name}
-                              </a>
+                              {product.name}
                             </Link>
                           </h3>
                         </div>

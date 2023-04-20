@@ -15,7 +15,7 @@ export default function HomeScreen() {
             <div className="absolute inset-0">
               <img
                 src="https://www.rei.com/dam/content_team_053017_81385_yoga_gear_how_choose_lg.jpg?t=ea16by9lg"
-                alt=""
+                alt="people doing yoga"
                 className="h-full w-full object-cover object-center"
               />
             </div>
@@ -32,7 +32,10 @@ export default function HomeScreen() {
                   or towel can make!
                 </p>
                 <Link to="/products">
-                  <button className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto">
+                  <button
+                    aria-label="Shop All Products"
+                    className="mt-8 block w-full rounded-md border border-transparent bg-white px-8 py-3 text-base font-medium text-gray-900 hover:bg-gray-100 sm:w-auto"
+                  >
                     Shop Now
                   </button>
                 </Link>
