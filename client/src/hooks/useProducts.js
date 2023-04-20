@@ -5,7 +5,9 @@ export default function useProducts() {
 
   useEffect(() => {
     async function getProducts() {
+      console.log("Fetching products...");
       const res = await fetch("http://localhost:8002/api/products");
+      console.log(res);
       const data = await res.json();
       setProducts(data);
     }

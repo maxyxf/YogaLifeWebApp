@@ -12,13 +12,10 @@ export default function ShopScreen() {
     setSearchProducts(products);
   }, [products]);
 
-  console.log("products:", products);
-  console.log("searchProducts:", searchProducts);
-
   useEffect(() => {
     setSearchProducts(
-      products.filter((i) =>
-        i.name.toLowerCase().includes(searchText.toLowerCase())
+      products.filter((p) =>
+        p.name.toLowerCase().includes(searchText.toLowerCase())
       )
     );
   }, [searchText]);
