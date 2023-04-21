@@ -19,6 +19,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const { currency, setCurrency } = useCurrency();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
 
   const handleClick = () => {
     if (currency === "CAD") {
@@ -130,21 +131,37 @@ export default function Header() {
                           </Link>
                         )}
                       </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            onClick={() =>
-                              logout({ returnTo: window.location.origin })
-                            }
-                            className={classNames(
-                              active ? "bg-gray-100" : "",
-                              "block px-4 py-2 text-sm text-gray-700"
-                            )}
-                          >
-                            Sign out
-                          </button>
-                        )}
-                      </Menu.Item>
+                      {isAuthenticated ? (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() =>
+                                logout({ returnTo: window.location.origin })
+                              }
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Sign out
+                            </button>
+                          )}
+                        </Menu.Item>
+                      ) : (
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={loginWithRedirect}
+                              className={classNames(
+                                active ? "bg-gray-100" : "",
+                                "block w-full text-left px-4 py-2 text-sm text-gray-700"
+                              )}
+                            >
+                              Login
+                            </button>
+                          )}
+                        </Menu.Item>
+                      )}
                     </Menu.Items>
                   </Transition>
                 </Menu>
