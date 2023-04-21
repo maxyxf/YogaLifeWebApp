@@ -97,16 +97,20 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
         auth0Id,
       },
     });
+    // console.log("user: ", user);
     const cart = await prisma.cart.findUnique({
       where: { userId: user.id },
       include: { products: true },
     });
+    // console.log("cart: ", cart);
     const product = await prisma.product.findUnique({
       where: { id: parseInt(productId) },
     });
+    // console.log("product: ", product);
 
     // Check if the product is already in the cart
     const productInCart = cart.products.find((p) => p.id === product.id);
+    // console.log("productInCart: ", productInCart);
 
     if (productInCart) {
       // If the product is already in the cart, update the quantity of the cartItem
@@ -125,6 +129,8 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
         },
       });
 
+      // console.log("cartItem: ", cartItem);
+
       const updatedCartItem = await prisma.cartItem.update({
         where: { id: cartItem.id },
         data: {
@@ -132,12 +138,16 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
         },
       });
 
+      // console.log("updatedCartItem: ", updatedCartItem);
+
       // Return the updated cart
       const updatedCart = await prisma.cart.findUnique({
         where: { id: cart.id },
         include: { products: true },
       });
       res.json(updatedCart);
+
+      // console.log("updatedCart: ", updatedCart);
     } else {
       // If the product is not in the cart, add it to the cart and create a new cartItem
       const updatedCart = await prisma.cart.update({
@@ -145,6 +155,8 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
         data: { products: { connect: { id: product.id } } },
         include: { products: true },
       });
+
+      // console.log("updatedCart: ", updatedCart);
 
       const newCartItem = await prisma.cartItem.create({
         data: {
@@ -154,12 +166,16 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
         },
       });
 
+      // console.log("newCartItem: ", newCartItem);
+
       // Return the updated cart
       const finalCart = await prisma.cart.findUnique({
         where: { id: updatedCart.id },
-        include: { products: true },
+        include: { products: true, cartProduct: true },
       });
       res.json(finalCart);
+
+      // console.log("finalCart: ", finalCart);
     }
   } catch (err) {
     console.error(err);

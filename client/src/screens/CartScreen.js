@@ -27,20 +27,24 @@ export default function CartScreen() {
         },
       });
       const cart = await data.json();
+      //console.log(cart);
       const cartItemsWithQuantity = cart.products.map((product) => {
-        const cartProduct = cart.cartProduct.find(
+        const cartItemProduct = cart.cartProduct.find(
           (item) => item.productId === product.id
         );
-        return { ...product, quantity: cartProduct.quantity };
+        const quantity = cartItemProduct ? cartItemProduct.quantity : 0;
+        return { ...product, quantity };
       });
 
-      setCartItems(cartItemsWithQuantity);
+      if (JSON.stringify(cartItemsWithQuantity) !== JSON.stringify(cartItems)) {
+        setCartItems(cartItemsWithQuantity);
+      }
     }
 
     if (accessToken) {
       getCartItemsFromApi();
     }
-  }, [accessToken]);
+  }, [accessToken, cartItems]);
 
   useEffect(() => {
     const newPrice = cartItems.reduce((total, item) => {
