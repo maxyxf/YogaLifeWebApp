@@ -76,8 +76,6 @@ export default function ShopScreen() {
     }
   }, [selectedColors]);
 
-  console.log(searchProducts);
-
   return (
     <div className="bg-white">
       <div>

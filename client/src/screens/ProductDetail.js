@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
-import useCartItems from "../hooks/useCartItems";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
 import { Link } from "react-router-dom";
@@ -12,7 +11,6 @@ export default function ProductDetail() {
   const [product, setProduct] = useState([]);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
-  const { cartItems, setCartItems } = useCartItems();
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
   const [selectedQuantity, setSelectedQuantity] = useState(1);

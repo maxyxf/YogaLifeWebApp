@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAuthToken } from "../AuthTokenContext";
-import useCartItems from "../hooks/useCartItems";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
 import { Link } from "react-router-dom";
 import {
   CheckIcon,
-  ClockIcon,
   QuestionMarkCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 
 export default function CartScreen() {
-  const [cartItems, setCartItems] = useCartItems();
+  const [cartItems, setCartItems] = useState([]);
   const { accessToken } = useAuthToken();
   const [price, setPrice] = useState(0);
   const [tax, setTax] = useState(0);
@@ -20,6 +18,29 @@ export default function CartScreen() {
   const [totalPrice, setTotalPrice] = useState(0);
   const { currency } = useCurrency();
   const [conversionRate, setConversionRate] = useConversion();
+
+  useEffect(() => {
+    async function getCartItemsFromApi() {
+      const data = await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      const cart = await data.json();
+      const cartItemsWithQuantity = cart.products.map((product) => {
+        const cartProduct = cart.cartProduct.find(
+          (item) => item.productId === product.id
+        );
+        return { ...product, quantity: cartProduct.quantity };
+      });
+
+      setCartItems(cartItemsWithQuantity);
+    }
+
+    if (accessToken) {
+      getCartItemsFromApi();
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     const newPrice = cartItems.reduce((total, item) => {
