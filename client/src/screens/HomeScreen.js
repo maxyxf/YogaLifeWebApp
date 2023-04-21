@@ -6,7 +6,6 @@ import useProducts from "../hooks/useProducts";
 export default function HomeScreen() {
   const [products, setProducts] = useProducts();
   const latestProduct = products.slice(-8).reverse();
-  console.log(products);
   return (
     <>
       <div className="bg-white">
