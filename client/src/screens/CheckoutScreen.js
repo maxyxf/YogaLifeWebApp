@@ -32,15 +32,8 @@ export default function CheckoutScreen() {
     deliveryMethods[0]
   );
 
-  const {
-    cartItems,
-    setCartItems,
-    price,
-    tax,
-    shipping,
-    totalPrice,
-    handleQuantityChange,
-  } = useCart();
+  const { cartItems, price, tax, shipping, totalPrice, handleQuantityChange } =
+    useCart();
 
   const handleSelectChange = (event, productId) => {
     const newQuantity = event.target.value;
@@ -476,14 +469,15 @@ export default function CheckoutScreen() {
                             </p>
                           </h4>
                         </div>
-                        <div className="ml-4 mt-1 ">
+
+                        <div className="ml-4 ">
                           <label htmlFor="quantity" className="sr-only">
                             Quantity
                           </label>
                           <select
                             id="quantity"
                             name="quantity"
-                            className="rounded-md border w-20 py-1.5 border-gray-300 text-center text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            className="rounded-md border w-16 pl-2 py-1.5 border-gray-300 text-center font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
                             defaultValue={product.quantity}
                             onChange={(event) =>
                               handleSelectChange(event, product.id)
@@ -498,6 +492,15 @@ export default function CheckoutScreen() {
                             <option value={7}>7</option>
                             <option value={8}>8</option>
                           </select>
+                        </div>
+                        <div className="ml-4 mt-1 flow-root flex-shrink-0">
+                          <button
+                            type="button"
+                            className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
+                          >
+                            <span className="sr-only">Remove</span>
+                            <TrashIcon className="h-5 w-5" aria-hidden="true" />
+                          </button>
                         </div>
                       </div>
 

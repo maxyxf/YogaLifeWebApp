@@ -52,11 +52,11 @@ export default function CartScreen() {
 
   return (
     <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
+      <div className="mx-auto w-full px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Shopping Cart
         </h1>
-        <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+        <form className="mt-12 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12 xl:gap-x-16">
           <section aria-labelledby="cart-heading" className="lg:col-span-7">
             <h2 id="cart-heading" className="sr-only">
               Items in your shopping cart
@@ -150,78 +150,19 @@ export default function CartScreen() {
               ))}
             </ul>
           </section>
-
-          {/* Order summary */}
-          <section
-            aria-labelledby="summary-heading"
-            className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8"
-          >
-            <h2
-              id="summary-heading"
-              className="text-lg font-medium text-gray-900"
-            >
-              Order summary
-            </h2>
-
-            <dl className="mt-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <dt className="text-sm text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">
-                  {currency === "CAD"
-                    ? `$${price}`
-                    : `$${(price * conversionRate).toFixed(2)}`}{" "}
-                  {currency}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="flex items-center text-sm text-gray-600">
-                  <span>Shipping estimate</span>
-                </dt>
-                <dd className="text-sm font-medium text-gray-900">
-                  {currency === "CAD"
-                    ? `$${shipping}`
-                    : `$${(shipping * conversionRate).toFixed(2)}`}{" "}
-                  {currency}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="flex text-sm text-gray-600">
-                  <span>Tax estimate</span>
-                </dt>
-                <dd className="text-sm font-medium text-gray-900">
-                  {" "}
-                  {currency === "CAD"
-                    ? `$${tax}`
-                    : `$${(tax * conversionRate).toFixed(2)}`}{" "}
-                  {currency}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                <dt className="text-base font-medium text-gray-900">
-                  Order total
-                </dt>
-                <dd className="text-base font-medium text-gray-900">
-                  {currency === "CAD"
-                    ? `$${totalPrice}`
-                    : `$${(totalPrice * conversionRate).toFixed(2)}`}{" "}
-                  {currency}
-                </dd>
-              </div>
-            </dl>
-
-            <div className="mt-6">
-              <Link to="/checkout">
-                <button
-                  type="submit"
-                  className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-                  disabled={cartItems.length === 0}
-                >
-                  Checkout
-                </button>
-              </Link>
-            </div>
-          </section>
         </form>
+        <div className="mt- w-full mx-auto text-center">
+          <Link to="/checkout">
+            <button
+              type="submit"
+              className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+              disabled={cartItems.length === 0}
+              style={{ width: "50%" }}
+            >
+              Checkout
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   );
