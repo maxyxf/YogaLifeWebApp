@@ -16,24 +16,16 @@ export default function ProductDetail() {
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   async function addProductToCart(productId, quantity) {
-    const data = await fetch(
-      `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          quantity: quantity,
-        }),
-      }
-    );
-    if (data.ok) {
-      const updatedCart = await data.json();
-    } else {
-      return null;
-    }
+    await fetch(`${process.env.REACT_APP_API_URL}/cart/product/${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        quantity: quantity,
+      }),
+    });
   }
 
   const handleSelectChange = (event) => {

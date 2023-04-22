@@ -24,8 +24,6 @@ export default function AddProductScreen() {
           }),
         }
       );
-      const product = await response.json();
-      console.log(product);
       setName("");
       setPrice("");
       setImageSrc("");

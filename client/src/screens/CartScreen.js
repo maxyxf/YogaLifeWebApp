@@ -1,4 +1,3 @@
-import { useAuthToken } from "../AuthTokenContext";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
 import { Link } from "react-router-dom";
