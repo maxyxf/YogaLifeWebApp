@@ -77,6 +77,37 @@ function useCart() {
     setCartItems(cartItemsWithQuantity);
   }
 
+  async function removeProductFromCart(productId) {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    if (response.ok) {
+      const cart = await response.json();
+      const cartItemsWithQuantity = cart.products.map((product) => {
+        const cartProduct = cart.cartProduct.find(
+          (item) => item.productId === product.id
+        );
+        return { ...product, quantity: cartProduct.quantity };
+      });
+
+      setCartItems(cartItemsWithQuantity);
+    } else {
+      return null;
+    }
+  }
+
+  const handleSelectChange = (event, productId) => {
+    const newQuantity = event.target.value;
+    handleQuantityChange(productId, newQuantity);
+  };
+
   return {
     cartItems,
     setCartItems,
@@ -85,6 +116,8 @@ function useCart() {
     shipping,
     totalPrice,
     handleQuantityChange,
+    removeProductFromCart,
+    handleSelectChange,
   };
 }
 

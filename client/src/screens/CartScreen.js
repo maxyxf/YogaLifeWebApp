@@ -6,49 +6,9 @@ import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import useCart from "../hooks/useCart";
 
 export default function CartScreen() {
-  const { accessToken } = useAuthToken();
   const { currency } = useCurrency();
   const [conversionRate] = useConversion();
-  const {
-    cartItems,
-    setCartItems,
-    price,
-    tax,
-    shipping,
-    totalPrice,
-    handleQuantityChange,
-  } = useCart();
-
-  const handleSelectChange = (event, productId) => {
-    const newQuantity = event.target.value;
-    handleQuantityChange(productId, newQuantity);
-  };
-
-  async function removeProductFromCart(productId) {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/cart/product/${productId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    if (response.ok) {
-      const cart = await response.json();
-      const cartItemsWithQuantity = cart.products.map((product) => {
-        const cartProduct = cart.cartProduct.find(
-          (item) => item.productId === product.id
-        );
-        return { ...product, quantity: cartProduct.quantity };
-      });
-
-      setCartItems(cartItemsWithQuantity);
-    } else {
-      return null;
-    }
-  }
+  const { cartItems, handleSelectChange, removeProductFromCart } = useCart();
 
   return (
     <div className="bg-white">
@@ -151,7 +111,7 @@ export default function CartScreen() {
             </ul>
           </section>
         </form>
-        <div className="mt- w-full mx-auto text-center">
+        <div className="mt-8 w-full mx-auto text-center">
           <Link to="/checkout">
             <button
               type="submit"

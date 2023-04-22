@@ -32,13 +32,15 @@ export default function CheckoutScreen() {
     deliveryMethods[0]
   );
 
-  const { cartItems, price, tax, shipping, totalPrice, handleQuantityChange } =
-    useCart();
-
-  const handleSelectChange = (event, productId) => {
-    const newQuantity = event.target.value;
-    handleQuantityChange(productId, newQuantity);
-  };
+  const {
+    cartItems,
+    price,
+    tax,
+    shipping,
+    totalPrice,
+    handleSelectChange,
+    removeProductFromCart,
+  } = useCart();
 
   return (
     <div className="bg-gray-50">
@@ -497,6 +499,9 @@ export default function CheckoutScreen() {
                           <button
                             type="button"
                             className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
+                            onClick={() => {
+                              removeProductFromCart(product.id);
+                            }}
                           >
                             <span className="sr-only">Remove</span>
                             <TrashIcon className="h-5 w-5" aria-hidden="true" />
