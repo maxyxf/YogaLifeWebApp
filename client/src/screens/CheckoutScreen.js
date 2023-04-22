@@ -2,21 +2,10 @@ import { useState } from "react";
 import { RadioGroup } from "@headlessui/react";
 import { CheckCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import useCart from "../hooks/useCart";
+import { useCurrency } from "../CurrencyContext";
+import useConversion from "../hooks/useConversion";
 
-const products = [
-  {
-    id: 1,
-    title: "Basic Tee",
-    href: "#",
-    price: "$32.00",
-    color: "Black",
-    size: "Large",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/checkout-page-02-product-01.jpg",
-    imageAlt: "Front of men's Basic Tee in black.",
-  },
-  // More products...
-];
 const deliveryMethods = [
   {
     id: 1,
@@ -37,9 +26,26 @@ function classNames(...classes) {
 }
 
 export default function CheckoutScreen() {
+  const { currency } = useCurrency();
+  const [conversionRate] = useConversion();
   const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(
     deliveryMethods[0]
   );
+
+  const {
+    cartItems,
+    setCartItems,
+    price,
+    tax,
+    shipping,
+    totalPrice,
+    handleQuantityChange,
+  } = useCart();
+
+  const handleSelectChange = (event, productId) => {
+    const newQuantity = event.target.value;
+    handleQuantityChange(productId, newQuantity);
+  };
 
   return (
     <div className="bg-gray-50">
@@ -451,12 +457,12 @@ export default function CheckoutScreen() {
             <div className="mt-4 rounded-lg border border-gray-200 bg-white shadow-sm">
               <h3 className="sr-only">Items in your cart</h3>
               <ul role="list" className="divide-y divide-gray-200">
-                {products.map((product) => (
+                {cartItems.map((product) => (
                   <li key={product.id} className="flex px-4 py-6 sm:px-6">
                     <div className="flex-shrink-0">
                       <img
                         src={product.imageSrc}
-                        alt={product.imageAlt}
+                        alt={product.name}
                         className="w-20 rounded-md"
                       />
                     </div>
@@ -465,35 +471,23 @@ export default function CheckoutScreen() {
                       <div className="flex">
                         <div className="min-w-0 flex-1">
                           <h4 className="text-sm">
-                            <a
-                              href={product.href}
-                              className="font-medium text-gray-700 hover:text-gray-800"
-                            >
-                              {product.title}
-                            </a>
+                            <p className="font-medium text-gray-700 hover:text-gray-800">
+                              {product.name}
+                            </p>
                           </h4>
-                          <p className="mt-1 text-sm text-gray-500">
-                            {product.color}
-                          </p>
-                          <p className="mt-1 text-sm text-gray-500">
-                            {product.size}
-                          </p>
                         </div>
-                      </div>
-
-                      <div className="flex flex-1 items-end justify-between pt-2">
-                        <p className="mt-1 text-sm font-medium text-gray-900">
-                          {product.price}
-                        </p>
-
-                        <div className="ml-4">
+                        <div className="ml-4 mt-1 ">
                           <label htmlFor="quantity" className="sr-only">
                             Quantity
                           </label>
                           <select
                             id="quantity"
                             name="quantity"
-                            className="rounded-md border border-gray-300 text-left text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            className="rounded-md border w-20 py-1.5 border-gray-300 text-center text-base font-medium text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                            defaultValue={product.quantity}
+                            onChange={(event) =>
+                              handleSelectChange(event, product.id)
+                            }
                           >
                             <option value={1}>1</option>
                             <option value={2}>2</option>
@@ -506,6 +500,17 @@ export default function CheckoutScreen() {
                           </select>
                         </div>
                       </div>
+
+                      <div className="flex flex-1 justify-between pt-2">
+                        <p className="mt-1 text-sm font-medium text-gray-900">
+                          {currency === "CAD"
+                            ? `$${product.price}`
+                            : `$${(product.price * conversionRate).toFixed(
+                                2
+                              )}`}{" "}
+                          {currency}
+                        </p>
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -513,20 +518,39 @@ export default function CheckoutScreen() {
               <dl className="space-y-6 border-t border-gray-200 px-4 py-6 sm:px-6">
                 <div className="flex items-center justify-between">
                   <dt className="text-sm">Subtotal</dt>
-                  <dd className="text-sm font-medium text-gray-900">$64.00</dd>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {currency === "CAD"
+                      ? `$${price}`
+                      : `$${(price * conversionRate).toFixed(2)}`}{" "}
+                    {currency}
+                  </dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-sm">Shipping</dt>
-                  <dd className="text-sm font-medium text-gray-900">$5.00</dd>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {currency === "CAD"
+                      ? `$${shipping}`
+                      : `$${(shipping * conversionRate).toFixed(2)}`}{" "}
+                    {currency}
+                  </dd>
                 </div>
                 <div className="flex items-center justify-between">
                   <dt className="text-sm">Taxes</dt>
-                  <dd className="text-sm font-medium text-gray-900">$5.52</dd>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {" "}
+                    {currency === "CAD"
+                      ? `$${tax}`
+                      : `$${(tax * conversionRate).toFixed(2)}`}{" "}
+                    {currency}
+                  </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt className="text-base font-medium">Total</dt>
                   <dd className="text-base font-medium text-gray-900">
-                    $75.52
+                    {currency === "CAD"
+                      ? `$${totalPrice}`
+                      : `$${(totalPrice * conversionRate).toFixed(2)}`}{" "}
+                    {currency}
                   </dd>
                 </div>
               </dl>
