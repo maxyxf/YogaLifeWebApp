@@ -17,6 +17,8 @@ import NotFound from "./components/NotFound";
 import { CurrencyProvider } from "./CurrencyContext";
 import ProductListScreen from "./screens/ProductListScreen";
 import AddProductScreen from "./screens/AddProductScreen";
+import CheckoutScreen from "./screens/CheckoutScreen";
+import ConfirmedOrderScreen from "./screens/ConfirmedOrderScreen";
 
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -100,6 +102,22 @@ root.render(
                 element={
                   <RequireAuth>
                     <AddProductScreen />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/checkout"
+                element={
+                  <RequireAuth>
+                    <CheckoutScreen />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/confirmorder"
+                element={
+                  <RequireAuth>
+                    <ConfirmedOrderScreen />
                   </RequireAuth>
                 }
               />
