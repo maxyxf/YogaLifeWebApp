@@ -3,11 +3,7 @@ import { useAuthToken } from "../AuthTokenContext";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
 import { Link } from "react-router-dom";
-import {
-  CheckIcon,
-  QuestionMarkCircleIcon,
-  XMarkIcon,
-} from "@heroicons/react/20/solid";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 export default function CartScreen() {
   const [cartItems, setCartItems] = useState([]);
@@ -17,7 +13,7 @@ export default function CartScreen() {
   const [shipping, setShipping] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const { currency } = useCurrency();
-  const [conversionRate, setConversionRate] = useConversion();
+  const [conversionRate] = useConversion();
 
   useEffect(() => {
     async function getCartItemsFromApi() {
@@ -27,7 +23,6 @@ export default function CartScreen() {
         },
       });
       const cart = await data.json();
-      //console.log(cart);
       const cartItemsWithQuantity = cart.products.map((product) => {
         const cartItemProduct = cart.cartProduct.find(
           (item) => item.productId === product.id
@@ -303,6 +298,7 @@ export default function CartScreen() {
                 <button
                   type="submit"
                   className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+                  disabled={cartItems.length === 0}
                 >
                   Checkout
                 </button>

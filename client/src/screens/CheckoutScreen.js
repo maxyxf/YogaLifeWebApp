@@ -493,16 +493,6 @@ export default function CheckoutScreen() {
                             {product.size}
                           </p>
                         </div>
-
-                        <div className="ml-4 flow-root flex-shrink-0">
-                          <button
-                            type="button"
-                            className="-m-2.5 flex items-center justify-center bg-white p-2.5 text-gray-400 hover:text-gray-500"
-                          >
-                            <span className="sr-only">Remove</span>
-                            <TrashIcon className="h-5 w-5" aria-hidden="true" />
-                          </button>
-                        </div>
                       </div>
 
                       <div className="flex flex-1 items-end justify-between pt-2">
