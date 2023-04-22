@@ -1,87 +1,23 @@
-import React, { useEffect, useState } from "react";
 import { useAuthToken } from "../AuthTokenContext";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
 import { Link } from "react-router-dom";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import useCart from "../hooks/useCart";
 
 export default function CartScreen() {
-  const [cartItems, setCartItems] = useState([]);
   const { accessToken } = useAuthToken();
-  const [price, setPrice] = useState(0);
-  const [tax, setTax] = useState(0);
-  const [shipping, setShipping] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
   const { currency } = useCurrency();
   const [conversionRate] = useConversion();
-
-  useEffect(() => {
-    async function getCartItemsFromApi() {
-      const data = await fetch(`${process.env.REACT_APP_API_URL}/cart`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const cart = await data.json();
-      const cartItemsWithQuantity = cart.products.map((product) => {
-        const cartItemProduct = cart.cartProduct.find(
-          (item) => item.productId === product.id
-        );
-        const quantity = cartItemProduct ? cartItemProduct.quantity : 0;
-        return { ...product, quantity };
-      });
-
-      if (JSON.stringify(cartItemsWithQuantity) !== JSON.stringify(cartItems)) {
-        setCartItems(cartItemsWithQuantity);
-      }
-    }
-
-    if (accessToken) {
-      getCartItemsFromApi();
-    }
-  }, [accessToken, cartItems]);
-
-  useEffect(() => {
-    const newPrice = cartItems.reduce((total, item) => {
-      return total + item.price * item.quantity;
-    }, 0);
-    const newTax = (newPrice * 0.12).toFixed(2);
-    const newShippingCost = cartItems.length > 0 ? 8 : 0;
-    const newTotalPrice = (
-      newPrice +
-      parseFloat(newTax) +
-      newShippingCost
-    ).toFixed(2);
-    setPrice(newPrice);
-    setTax(newTax);
-    setShipping(newShippingCost);
-    setTotalPrice(newTotalPrice);
-  }, [cartItems]);
-
-  async function handleQuantityChange(productId, quantity) {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/cart/item/${productId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          quantity: quantity,
-        }),
-      }
-    );
-    const cart = await response.json();
-    const cartItemsWithQuantity = cart.products.map((product) => {
-      const cartProduct = cart.cartProduct.find(
-        (item) => item.productId === product.id
-      );
-      return { ...product, quantity: cartProduct.quantity };
-    });
-
-    setCartItems(cartItemsWithQuantity);
-  }
+  const {
+    cartItems,
+    setCartItems,
+    price,
+    tax,
+    shipping,
+    totalPrice,
+    handleQuantityChange,
+  } = useCart();
 
   const handleSelectChange = (event, productId) => {
     const newQuantity = event.target.value;
@@ -210,24 +146,12 @@ export default function CartScreen() {
                         </div>
                       </div>
                     </div>
-
                     <p className="mt-4 flex space-x-2 text-sm text-gray-700">
-                      {/* {product.inStock ? ( */}
                       <CheckIcon
                         className="h-5 w-5 flex-shrink-0 text-green-500"
                         aria-hidden="true"
                       />
-                      {/* ) : (
-                        <ClockIcon
-                          className="h-5 w-5 flex-shrink-0 text-gray-300"
-                          aria-hidden="true"
-                        />
-                      )} */}
-
-                      <span>
-                        In stock
-                        {/* {product.inStock ? "In stock" : `Ships in 1 week`} */}
-                      </span>
+                      <span>In stock</span>
                     </p>
                   </div>
                 </li>
