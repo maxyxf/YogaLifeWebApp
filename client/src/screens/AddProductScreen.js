@@ -39,7 +39,7 @@ export default function AddProductScreen() {
     <form>
       <div className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8 space-y-12 ">
         <div className="border-b border-gray-900/10 ">
-          <h2 className="text-xl font-semibold leading-7 text-gray-900">
+          <h2 className="text-2xl font-semibold leading-7 text-gray-900">
             Add Product
           </h2>
 
