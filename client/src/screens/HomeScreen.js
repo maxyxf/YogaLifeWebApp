@@ -24,11 +24,12 @@ export default function HomeScreen() {
                   <span className="block sm:inline">Yoga Life</span>
                 </h2>
                 <p className="mt-3 text-xl text-white">
-                  Welcome to Yogalife, your go-to source for premium yoga mats
-                  and towels. We offer a wide range of high-quality products
-                  that are designed to enhance your practice. Browse our
-                  selection today and discover the difference that a great mat
-                  or towel can make!
+                  Welcome to Yogalife, your ultimate destination for premium
+                  yoga essentials. We are your one-stop-shop for top-quality
+                  yoga mats, towels, and blocks that are crafted to elevate your
+                  practice. Explore our extensive collection today and
+                  experience the remarkable impact that high-quality equipment
+                  can have on your yoga routine!
                 </p>
                 <Link to="/products">
                   <button

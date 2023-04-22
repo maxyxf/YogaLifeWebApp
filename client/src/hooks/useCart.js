@@ -108,6 +108,16 @@ function useCart() {
     handleQuantityChange(productId, newQuantity);
   };
 
+  async function removeAllProductsFromCart() {
+    await fetch(`${process.env.REACT_APP_API_URL}/cart/products`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  }
+
   return {
     cartItems,
     setCartItems,
@@ -118,6 +128,7 @@ function useCart() {
     handleQuantityChange,
     removeProductFromCart,
     handleSelectChange,
+    removeAllProductsFromCart,
   };
 }
 

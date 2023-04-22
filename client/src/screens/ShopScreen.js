@@ -36,7 +36,7 @@ function classNames(...classes) {
 
 export default function ShopScreen() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const [products, setProducts] = useProducts();
+  const [products] = useProducts();
   const [searchProducts, setSearchProducts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [selectedColors, setSelectedColors] = useState([]);

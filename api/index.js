@@ -268,6 +268,39 @@ app.delete("/cart/product/:productId", requireAuth, async (req, res) => {
   res.json(updatedCart);
 });
 
+//delete all products in a user's cart
+app.delete("/cart/products", requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+
+  const user = await prisma.user.findUnique({
+    where: {
+      auth0Id,
+    },
+  });
+
+  const cart = await prisma.cart.findUnique({
+    where: { userId: user.id },
+    include: { products: true },
+  });
+
+  if (!cart) {
+    return res.status(404).json({ message: "Cart not found" });
+  }
+
+  const productIds = cart.products.map((product) => ({ id: product.id }));
+
+  const updatedCart = await prisma.cart.update({
+    where: { userId: user.id },
+    data: {
+      products: { disconnect: productIds },
+      cartProduct: { deleteMany: {} },
+    },
+    include: { products: true, cartProduct: true },
+  });
+
+  res.json(updatedCart);
+});
+
 // verify user status, if not registered in our database we will create it
 app.post("/verify-user", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
