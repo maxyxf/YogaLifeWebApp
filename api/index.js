@@ -89,7 +89,7 @@ app.get("/cart", requireAuth, async (req, res) => {
 app.post("/cart/product/:productId", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
   const { productId } = req.params;
-  const { quantity } = req.body; // Get the quantity from the request body
+  const { quantity } = req.body;
 
   try {
     const user = await prisma.user.findUnique({
@@ -150,13 +150,12 @@ app.post("/cart/product/:productId", requireAuth, async (req, res) => {
 
       const newCartItem = await prisma.cartItem.create({
         data: {
-          quantity: parseInt(quantity), // Set the quantity to the value from the request body
+          quantity: parseInt(quantity),
           product: { connect: { id: product.id } },
           cart: { connect: { id: updatedCart.id } },
         },
       });
 
-      // Return the updated cart
       const finalCart = await prisma.cart.findUnique({
         where: { id: updatedCart.id },
         include: { products: true, cartProduct: true },

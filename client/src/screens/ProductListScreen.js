@@ -107,12 +107,6 @@ export default function ProductListScreen() {
                         {product.description}
                       </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        {/* <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900 mr-4"
-                        >
-                          Edit<span className="sr-only">, {product.name}</span>
-                        </a> */}
                         <button
                           className="text-indigo-600 hover:text-indigo-900"
                           onClick={() => {
