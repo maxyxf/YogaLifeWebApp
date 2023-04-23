@@ -60,7 +60,7 @@ export default function ShopScreen() {
         p.name.toLowerCase().includes(searchText.toLowerCase())
       )
     );
-  }, [searchText]);
+  }, [searchText, products]);
 
   useEffect(() => {
     if (selectedColors.length > 0) {
@@ -74,7 +74,7 @@ export default function ShopScreen() {
     } else {
       setSearchProducts(products);
     }
-  }, [selectedColors]);
+  }, [selectedColors, products]);
 
   return (
     <div className="bg-white">

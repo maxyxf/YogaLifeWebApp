@@ -9,21 +9,18 @@ export default function AddProductScreen() {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/product`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            price: parseFloat(price),
-            imageSrc,
-            description,
-          }),
-        }
-      );
+      await fetch(`${process.env.REACT_APP_API_URL}/api/product`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          price: parseFloat(price),
+          imageSrc,
+          description,
+        }),
+      });
       setName("");
       setPrice("");
       setImageSrc("");

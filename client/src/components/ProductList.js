@@ -4,7 +4,7 @@ import { useCurrency } from "../CurrencyContext";
 
 export default function ProductList({ products }) {
   const { currency } = useCurrency();
-  const [conversionRate, setConversionRate] = useConversion();
+  const [conversionRate] = useConversion();
 
   return (
     <div className="bg-white">

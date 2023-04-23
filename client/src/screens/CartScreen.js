@@ -20,11 +20,7 @@ export default function CartScreen() {
             <h2 id="cart-heading" className="sr-only">
               Items in your shopping cart
             </h2>
-
-            <ul
-              role="list"
-              className="divide-y divide-gray-200 border-b border-t border-gray-200"
-            >
+            <ul className="divide-y divide-gray-200 border-b border-t border-gray-200">
               {cartItems.map((product, productIdx) => (
                 <li key={product.id} className="flex py-6 sm:py-10">
                   <div className="flex-shrink-0">
@@ -73,7 +69,7 @@ export default function CartScreen() {
                             handleSelectChange(event, product.id)
                           }
                         >
-                          /* <option value={1}>1</option>
+                          <option value={1}>1</option>
                           <option value={2}>2</option>
                           <option value={3}>3</option>
                           <option value={4}>4</option>

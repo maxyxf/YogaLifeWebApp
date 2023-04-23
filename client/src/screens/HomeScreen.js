@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import useProducts from "../hooks/useProducts";
 
 export default function HomeScreen() {
-  const [products, setProducts] = useProducts();
+  const [products] = useProducts();
   const latestProduct = products.slice(-8).reverse();
   return (
     <>

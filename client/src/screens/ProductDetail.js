@@ -12,7 +12,7 @@ export default function ProductDetail() {
   const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { accessToken } = useAuthToken();
   const { currency } = useCurrency();
-  const [conversionRate, setConversionRate] = useConversion();
+  const [conversionRate] = useConversion();
   const [selectedQuantity, setSelectedQuantity] = useState(1);
 
   async function addProductToCart(productId, quantity) {
@@ -86,7 +86,7 @@ export default function ProductDetail() {
                 defaultValue={1}
                 onChange={(event) => handleSelectChange(event)}
               >
-                /* <option value={1}>1</option>
+                <option value={1}>1</option>
                 <option value={2}>2</option>
                 <option value={3}>3</option>
                 <option value={4}>4</option>
