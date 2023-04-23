@@ -49,13 +49,13 @@ export default function Header() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="mb-px margin-bottom: 1px flex flex-shrink-0 items-center">
-                  <p className="  text-xl font-bold font-weight: 700;">
+                <div className=" margin-bottom: 1px flex flex-shrink-0 items-center">
+                  <p className="mt-0.5 text-xl font-bold font-weight: 800">
                     YogaLife
                   </p>
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                <div className="mt-1 hidden sm:ml-6 sm:block">
+                  <div className="mt-0.5 flex space-x-4">
                     {navigation.map((item) => (
                       <Link
                         key={item.name}

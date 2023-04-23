@@ -5,7 +5,7 @@ export default function useProducts() {
 
   useEffect(() => {
     async function getProducts() {
-      const res = await fetch("http://localhost:8002/api/products");
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/products`);
       const data = await res.json();
       setProducts(data);
     }
