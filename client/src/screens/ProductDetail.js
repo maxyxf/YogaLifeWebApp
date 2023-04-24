@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "../AuthTokenContext";
 import { useCurrency } from "../CurrencyContext";
 import useConversion from "../hooks/useConversion";
-import { Link } from "react-router-dom";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -105,14 +104,12 @@ export default function ProductDetail() {
                   Login
                 </button>
               ) : (
-                <Link to="/cart">
-                  <button
-                    className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
-                    onClick={handleAddtoCart}
-                  >
-                    Add to Cart
-                  </button>
-                </Link>
+                <button
+                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                  onClick={handleAddtoCart}
+                >
+                  Add to Cart
+                </button>
               )}
             </div>
           </div>

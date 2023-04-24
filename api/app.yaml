@@ -1,8 +1,8 @@
 runtime: nodejs16
 env_variables:
   DATABASE_URL: "mysql://2rzao4obq7934e54qmfp:pscale_pw_vS5wusf2cB5OoHZR9G3a8VdmIqaZZQYS8fBpX6IXV4D@aws.connect.psdb.cloud/deploy-test?sslaccept=strict"
-  AUTH0_JWK_URI: "https://newapp2023.us.auth0.com/.well-known/jwks.json"
-  AUTH0_AUDIENCE: "https://api.products"
-  AUTH0_ISSUER: "https://newapp2023.us.auth0.com/"
+  AUTH0_JWK_URI: "https://myapp2023.us.auth0.com/.well-known/jwks.json"
+  AUTH0_AUDIENCE: "https://api.cartitems"
+  AUTH0_ISSUER: "https://myapp2023.us.auth0.com/"
   ACCESS_CONTROL_ALLOW_ORIGIN: "https://client-maxyxf.vercel.app"
   PORT: 8080
