@@ -14,7 +14,14 @@ const requireAuth = auth({
 
 const app = express();
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+  origin: "https://yogalife-maxyxf.vercel.app",
+};
+
+// Use CORS with the specified options
+app.use(cors(corsOptions));
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
