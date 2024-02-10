@@ -16,7 +16,7 @@ const app = express();
 
 // CORS configuration
 const corsOptions = {
-  origin: "https://yogalife-maxyxf.vercel.app",
+  origin: "https://yogalife2023.vercel.app",
 };
 
 // Use CORS with the specified options
